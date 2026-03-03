@@ -9,12 +9,16 @@ Bienvenue dans la documentation de la Toolbox !
 .. include:: ../README.md
    :parser: myst_parser.sphinx_
 
-Documentation Détaillée de l'API
-================================
-
 .. toctree::
    :maxdepth: 2
    :caption: Navigation:
 
    main
    mon_module
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Informations Légales:
+
+   governance
+   license
