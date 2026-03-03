@@ -2,7 +2,7 @@
 
 ![CI Status](https://github.com/gprodi/toolbox_ia/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)
-![Python Version](https://img.shields.io/badge/Python-3.11-blue.svg)
+![Python Version](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 Bienvenue dans la Toolbox IA de référence. Ce projet démontre la mise en place d'un environnement de développement professionnel, automatisé et documenté pour les travaux en Intelligence Artificielle.
@@ -11,6 +11,7 @@ Bienvenue dans la Toolbox IA de référence. Ce projet démontre la mise en plac
 
 * **Architecture Modulaire** : Séparation stricte de la logique métier et de l'orchestration.
 * **Excellence Technique** : Linting intraitable avec `Ruff` et couverture de test à 100% avec `Pytest`.
+* * **Observabilité** : Logging structuré, coloré et rotatif via `Loguru`.
 * **Documentation Automatisée** : Site web généré via `Sphinx` et le thème `Furo`.
 * **Déploiement Universel** : Conteneurisation optimisée via `Docker`.
 
@@ -43,7 +44,7 @@ Pour exécuter l'application de manière totalement isolée :
 
 ```bash
     docker build -t toolbox_ia .
-    docker run --rm toolbox_ia
+    docker run --rm -v ${PWD}/logs:/app/logs toolbox_ia
 ```
 
 ## 🤝 Contribuer
