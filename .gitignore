@@ -8,6 +8,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .coverage
+logs/
 
 # Documentation générée automatiquement
 docs/_build/

@@ -1,17 +1,40 @@
 import sys
+from pathlib import Path  # On ajoute cet import
 
 from loguru import logger
 from modules.mon_module import add, print_data, square
 
 
 def setup_logging():
-    """Configure Loguru pour la Toolbox."""
+    """Configure Loguru pour créer un fichier unique par exécution."""
+    # 1. Définition du dossier de base (racine du projet)
+    base_dir = Path(__file__).resolve().parent.parent
+    log_dir = base_dir / "logs"
+    log_dir.mkdir(exist_ok=True)
+
+    # 2. Nettoyage de la configuration existante
     logger.remove()
+
+    # 3. Ajout de la console (Niveau INFO pour ne pas polluer l'écran)
     logger.add(
         sys.stderr,
-        format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",  # noqa: E501
+        level="INFO",
+        format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | <level>{message}</level>",  # noqa: E501
     )
-    logger.add("logs/toolbox.log", rotation="10 MB", retention="10 days", level="DEBUG")
+
+    # 4. Ajout du fichier de log DATÉ (Niveau DEBUG pour tout capturer)
+    # La balise {time} est automatiquement remplacée par Loguru
+    log_path = log_dir / "toolbox_{time:YYYY-MM-DD_HH-mm-ss}.log"
+
+    logger.add(
+        str(log_path),
+        rotation="10 MB",
+        retention="10 days",
+        level="DEBUG",
+        encoding="utf-8",
+    )
+
+    logger.info("🚀 Nouvelle session de logging initialisée.")
 
 
 def main() -> None:
