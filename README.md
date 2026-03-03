@@ -11,7 +11,7 @@ Bienvenue dans la Toolbox IA de référence. Ce projet démontre la mise en plac
 
 * **Architecture Modulaire** : Séparation stricte de la logique métier et de l'orchestration.
 * **Excellence Technique** : Linting intraitable avec `Ruff` et couverture de test à 100% avec `Pytest`.
-* * **Observabilité** : Logging structuré, coloré et rotatif via `Loguru`.
+* **Observabilité** : Logging structuré, coloré et rotatif via `Loguru`.
 * **Documentation Automatisée** : Site web généré via `Sphinx` et le thème `Furo`.
 * **Déploiement Universel** : Conteneurisation optimisée via `Docker`.
 
