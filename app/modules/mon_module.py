@@ -1,4 +1,5 @@
 import pandas as pd
+from loguru import logger
 
 
 def add(a: int | float, b: int | float) -> int | float:
@@ -52,6 +53,13 @@ def print_data(df: pd.DataFrame) -> int:
         int: Le nombre total de lignes dans le DataFrame.
 
     """
+    """Affiche les données et logue l'opération."""
+    if df.empty:
+        logger.warning("Tentative d'affichage d'un DataFrame vide.")
+        return
+
+    logger.info(f"Affichage de {len(df)} lignes de données.")
+    print(df)
     print("=== Aperçu des données ===")
     print(df.head())
     print("==========================")

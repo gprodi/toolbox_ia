@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 
 dependencies = [
+    "loguru>=0.7.3",
     "pandas>=3.0.1",
 ]
 
@@ -27,7 +28,7 @@ dev = [
 # On définit une longueur de ligne standard pour éviter les codes illisibles sur petits écrans
 line-length = 88 
 # On cible une version moderne de Python pour optimiser l'analyse syntaxique
-target-version = "py311" 
+target-version = "py312" 
 
 [tool.ruff.lint]
 # Sélection stricte des règles à appliquer :
@@ -54,6 +55,10 @@ python_files = "test_*.py"
 addopts = "-v --cov=app --cov-report=term-missing"
 # Ajout crucial pour la résolution des modules locaux :
 pythonpath = ["."]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 
 [tool.coverage.run]
 omit = ["app/main.py"]
