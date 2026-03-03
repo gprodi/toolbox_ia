@@ -49,12 +49,13 @@ Pour exécuter l'application de manière totalement isolée :
 
 ## 🤝 Contribuer
 
-Nous encourageons vivement les contributions ! Veuillez lire notre Guide de Contribution pour comprendre notre processus de branche et de Pull Request, ainsi que notre Code de Conduite pour maintenir une communauté bienveillante.
+Consultez notre [page de gouvernance dédiée](governance.rst).
 
 ## 👥 Contributeurs
 
-Prodi.G - Ingénieur / Créateur
+* **Prodi.G** - *Ingénieur / Créateur*
 
 ## 📄 Licence
 
-Ce projet est sous licence MIT - voir le fichier LICENSE pour plus de détails.
+Ce projet est sous licence MIT.
+Consultez la [page de licence](license.rst).

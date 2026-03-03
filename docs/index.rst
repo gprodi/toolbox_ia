@@ -11,10 +11,11 @@ Bienvenue dans la documentation de la Toolbox !
 
 .. toctree::
    :maxdepth: 2
-   :caption: Navigation:
+   :caption: Utilisation & API:
 
    main
    mon_module
+   changelog
 
 .. toctree::
    :maxdepth: 1
