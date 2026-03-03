@@ -21,7 +21,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true     # Accélère les prochaines exécutions
-          python-version: "3.11" # On impose la même version que notre Dockerfile
+          python-version: "3.12" # On impose la même version que notre Dockerfile
 
       # Étape 3 : Installer TOUTES les dépendances (y compris Ruff et Pytest pour les tests)
       - name: 📦 Installation des dépendances

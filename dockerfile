@@ -1,7 +1,7 @@
 # ==============================================================================
 # 1. IMAGE DE BASE (Légère et sécurisée)
 # ==============================================================================
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 # On définit le répertoire de travail à l'intérieur du conteneur
 WORKDIR /app
