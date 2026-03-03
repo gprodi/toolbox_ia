@@ -1,0 +1,16 @@
+# Environnements virtuels
+.venv/
+env/
+
+# Fichiers de cache Python et outils de dev
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# Documentation générée automatiquement
+docs/_build/
+
+# Fichiers systèmes divers
+.DS_Store

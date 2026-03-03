@@ -1,0 +1,42 @@
+name: CI Pipeline
+
+# Déclencheurs : Le robot s'active sur les Push et Pull Requests vers 'main' et 'dev'
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  audit-et-tests:
+    runs-on: ubuntu-latest # Le robot utilise le dernier système Ubuntu vierge
+
+    steps:
+      # Étape 1 : Récupérer le code depuis GitHub
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      # Étape 2 : Installer notre gestionnaire uv
+      - name: 🛠️ Installation de Python et uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true     # Accélère les prochaines exécutions
+          python-version: "3.11" # On impose la même version que notre Dockerfile
+
+      # Étape 3 : Installer TOUTES les dépendances (y compris Ruff et Pytest pour les tests)
+      - name: 📦 Installation des dépendances
+        run: uv sync
+
+      # Étape 4 : Lancer la police du code
+      - name: 🔍 Linting (Ruff)
+        run: uv run ruff check .
+
+      # Étape 5 : Lancer le banc de test
+      - name: 🧪 Tests unitaires (Pytest)
+        run: uv run pytest
+
+      # Étape 6 : Sécurité basique (Recherche de secrets en dur)
+      - name: 🔐 Audit de sécurité (Secrets)
+        run: |
+          echo "Vérification basique des mots de passe en dur..."
+          ! grep -r -i "password=" app/ || exit 1

@@ -1,0 +1,60 @@
+[project]
+name = "toolbox-template"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "pandas>=3.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "furo>=2025.12.19",
+    "myst-parser>=5.0.0",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "ruff>=0.15.4",
+    "sphinx>=9.1.0",
+]
+
+
+# ==============================================================================
+# CONFIGURATION RUFF : La "Police du Code"
+# ==============================================================================
+[tool.ruff]
+# On définit une longueur de ligne standard pour éviter les codes illisibles sur petits écrans
+line-length = 88 
+# On cible une version moderne de Python pour optimiser l'analyse syntaxique
+target-version = "py311" 
+
+[tool.ruff.lint]
+# Sélection stricte des règles à appliquer :
+# E = Erreurs PEP8, W = Warnings PEP8, F = Pyflakes (erreurs logiques)
+# I = Isort (tri des imports), D = Docstrings (convention Pydocstyle)
+select = ["E", "W", "F", "I", "D"] 
+
+# Exceptions tolérées :
+# D100 = "Missing docstring in public module". On autorise l'absence de docstring en tout début de fichier pour ne pas surcharger les petits scripts.
+ignore = ["D100"] 
+
+# ==============================================================================
+# CONFIGURATION PYTEST : Le "Banc de Test"
+# ==============================================================================
+[tool.pytest.ini_options]
+# Dossier exclusif où Pytest doit chercher les tests
+testpaths = ["tests"] 
+# Pattern de nommage obligatoire pour que Pytest reconnaisse un fichier de test
+python_files = "test_*.py" 
+# Options par défaut injectées à chaque lancement de pytest :
+# -v : mode verbeux (détail des tests)
+# --cov=app : mesure la couverture de code uniquement sur le dossier "app"
+# --cov-report=term-missing : affiche dans le terminal les lignes exactes non testées
+addopts = "-v --cov=app --cov-report=term-missing"
+# Ajout crucial pour la résolution des modules locaux :
+pythonpath = ["."]
+
+[tool.coverage.run]
+omit = ["app/main.py"]
+
