@@ -25,7 +25,7 @@ jobs:
 
       # Étape 3 : Installer TOUTES les dépendances (y compris Ruff et Pytest pour les tests)
       - name: 📦 Installation des dépendances
-        run: uv sync
+        run: uv sync --python 3.12
 
       # Étape 4 : Lancer la police du code
       - name: 🔍 Linting (Ruff)
