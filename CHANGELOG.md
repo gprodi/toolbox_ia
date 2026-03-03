@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v1.4.0 (2026-03-03)
+
+### Documentation
+
+- Maj README
+  ([`04e6d7f`](https://github.com/gprodi/toolbox_ia/commit/04e6d7f92691d3eeab25bd87adbe55baefc6641f))
+
+### Features
+
+- **template**: Durcissement global (pandera, pathlib, docker rootless, ci matrix)
+  ([`b069042`](https://github.com/gprodi/toolbox_ia/commit/b0690422e06e2d1f267ca150449034c3c637541c))
+
+
 ## v1.3.0 (2026-03-03)
 
 ### Features
