@@ -37,7 +37,7 @@ select = ["E", "W", "F", "I", "D"]
 
 # Exceptions tolérées :
 # D100 = "Missing docstring in public module". On autorise l'absence de docstring en tout début de fichier pour ne pas surcharger les petits scripts.
-ignore = ["D100"] 
+ignore = ["D100", "D203", "D213"] # On ajoute D203 et D213 aux exceptions
 
 # ==============================================================================
 # CONFIGURATION PYTEST : Le "Banc de Test"

@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Import absolu depuis notre package local
-from modules.mon_module import add, print_data, square, sub
+from modules.mon_module import add, print_data, square
 
 
 def main() -> None:
