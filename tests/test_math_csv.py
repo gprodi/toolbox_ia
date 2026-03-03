@@ -11,7 +11,7 @@ from app.modules.mon_module import add, print_data, square, sub
 
 
 @pytest.mark.parametrize(
-    "a, b, expected",
+    ("a", "b", "expected"),
     [
         (10, 2, 12),  # Cas nominal positif
         (-5, 5, 0),  # Cas avec nombre négatif
@@ -24,14 +24,14 @@ def test_add(a, b, expected):
     assert add(a, b) == expected
 
 
-@pytest.mark.parametrize("a, b, expected", [(10, 2, 8), (0, 5, -5), (10, 10, 0)])
+@pytest.mark.parametrize(("a", "b", "expected"), [(10, 2, 8), (0, 5, -5), (10, 10, 0)])
 def test_sub(a, b, expected):
     """Teste la fonction de soustraction."""
     assert sub(a, b) == expected
 
 
 @pytest.mark.parametrize(
-    "a, expected",
+    ("a", "expected"),
     [
         (4, 16),
         (-4, 16),  # Le carré d'un négatif est positif
@@ -71,3 +71,14 @@ def test_print_data(dummy_dataframe):
 
     # Vérification : la fonction doit retourner le nombre de lignes (ici 3)
     assert resultat == 3
+
+
+# NOUVEAU : Test du cas où le DataFrame est vide
+def test_print_data_empty():
+    """Vérifie le comportement de la fonction face à un DataFrame vide."""
+    # On crée un DataFrame vide qui respecte notre schéma Pandera (colonnes id et valeur)
+    empty_df = pd.DataFrame(columns=["id", "valeur"]).astype(int)
+
+    # L'exécution doit déclencher le logger.warning et retourner 0
+    resultat = print_data(empty_df)
+    assert resultat == 0

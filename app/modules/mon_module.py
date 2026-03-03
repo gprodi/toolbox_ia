@@ -1,4 +1,5 @@
 import pandas as pd
+import pandera.pandas as pa  # NOUVEAU : Importation du validateur
 from loguru import logger
 
 
@@ -43,20 +44,20 @@ def square(a: int | float) -> int | float:
     return a * a
 
 
+# NOUVEAU : Définition du schéma attendu. C'est notre contrat de confiance.
+# On exige une colonne 'id' (entière) et une colonne 'valeur' (entière).
+CSVDataFrameSchema = pa.DataFrameSchema(
+    {"id": pa.Column(int, required=True), "valeur": pa.Column(int, required=True)}
+)
+
+
+# NOUVEAU : Le décorateur valide automatiquement le 'df' en entrée avant l'exécution.
+@pa.check_input(CSVDataFrameSchema)
 def print_data(df: pd.DataFrame) -> int:
-    """Affiche un DataFrame Pandas et retourne son nombre de lignes.
-
-    Args:
-        df (pd.DataFrame): Le DataFrame à analyser.
-
-    Returns:
-        int: Le nombre total de lignes dans le DataFrame.
-
-    """
-    """Affiche les données et logue l'opération."""
+    """Affiche un DataFrame Pandas et retourne son nombre de lignes."""
     if df.empty:
         logger.warning("Tentative d'affichage d'un DataFrame vide.")
-        return
+        return 0  # FIX : Retourner 0 plutôt que None (pour respecter le type de retour int)  # noqa: E501
 
     logger.info(f"Affichage de {len(df)} lignes de données.")
     print(df)

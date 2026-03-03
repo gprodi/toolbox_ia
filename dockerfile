@@ -25,9 +25,23 @@ RUN uv sync --no-dev --frozen
 COPY app/ ./app/
 
 # ==============================================================================
-# 5. PERSISTENCE (Optionnel mais recommandé)
+# 5. SÉCURISATION (Moindre Privilège)
 # ==============================================================================
-# Indique à Docker que ce dossier est destiné à être monté en volume
+# NOUVEAU : On crée un utilisateur système sans privilèges pour exécuter l'app
+RUN useradd --create-home appuser
+# On donne les droits du dossier logs à ce nouvel utilisateur
+RUN chown -R appuser:appuser /app/logs
+# On bascule sur cet utilisateur pour le reste de l'exécution
+USER appuser
+
+# ==============================================================================
+# 6. PERSISTENCE ET LANCEMENT
+# ==============================================================================
 VOLUME /app/logs
 
-CMD ["uv", "run", "--no-dev", "python", "app/main.py"]
+# NOUVEAU : On ajoute l'environnement virtuel d'uv au PATH
+# Cela évite d'appeler `uv run` à chaque démarrage du conteneur (plus rapide et standard)
+ENV PATH="/app/.venv/bin:$PATH"
+
+# On appelle directement python
+CMD ["python", "app/main.py"]

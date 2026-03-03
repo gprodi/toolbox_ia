@@ -52,13 +52,21 @@ def main() -> None:
     print(f"Carré de 4 = {square(4)}")
 
     # 2. Chargement des données (Pandas)
+    from pathlib import Path  # NOUVEAU : Déjà importé en haut, mais on s'en sert ici
+
     import pandas as pd
 
     try:
-        df = pd.read_csv("app/moncsv.csv")
+        # NOUVEAU : On calcule le chemin absolu du dossier contenant main.py
+        current_dir = Path(__file__).resolve().parent
+        # On y accole le nom du fichier. Ainsi, la commande marchera d'où qu'on la lance
+        csv_path = current_dir / "moncsv.csv"
+
+        df = pd.read_csv(csv_path)
         print_data(df)
     except FileNotFoundError:
-        logger.error("Fichier moncsv.csv introuvable dans app/")
+        # NOUVEAU : On utilise le chemin calculé dans le log pour faciliter le débogage
+        logger.error(f"Fichier de données introuvable au chemin : {csv_path}")
 
 
 if __name__ == "__main__":

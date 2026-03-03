@@ -8,6 +8,7 @@ requires-python = ">=3.12"
 dependencies = [
     "loguru>=0.7.3",
     "pandas>=3.0.1",
+    "pandera>=0.20.0",  # NOUVEAU : Pour valider strictement nos DataFrames
 ]
 
 [dependency-groups]
@@ -34,7 +35,9 @@ target-version = "py312"
 # Sélection stricte des règles à appliquer :
 # E = Erreurs PEP8, W = Warnings PEP8, F = Pyflakes (erreurs logiques)
 # I = Isort (tri des imports), D = Docstrings (convention Pydocstyle)
-select = ["E", "W", "F", "I", "D"] 
+# MODIFICATION : Ajout de UP (PyUpgrade), B (Bugbear pour les failles logiques), 
+# et PT (Pytest-style pour standardiser nos tests)
+select = ["E", "W", "F", "I", "D", "UP", "B", "PT"] 
 
 # Exceptions tolérées :
 # D100 = "Missing docstring in public module". On autorise l'absence de docstring en tout début de fichier pour ne pas surcharger les petits scripts.

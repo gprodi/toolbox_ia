@@ -13,6 +13,10 @@ permissions:
 jobs:
   audit-et-tests:
     runs-on: ubuntu-latest
+    # NOUVEAU : Mise en place d'une matrice stratégique
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
     steps:
       - name: 📥 Checkout du code
         uses: actions/checkout@v4
@@ -20,10 +24,11 @@ jobs:
       - name: 🛠️ Installation de Python et uv
         uses: astral-sh/setup-uv@v5
         with:
-          python-version: "3.12"
-
+          # NOUVEAU : On utilise la variable de la matrice au lieu d'une valeur en dur
+          python-version: ${{ matrix.python-version }}
       - name: 📦 Installation des dépendances
-        run: uv sync --python 3.12
+        # NOUVEAU : On utilise la variable de la matrice
+        run: uv sync --python ${{ matrix.python-version }}
 
       - name: 🔍 Linting (Ruff)
         run: uv run ruff check .
