@@ -2,20 +2,22 @@ name: Semantic Release & Delivery
 
 on:
   push:
-    branches: [ "main" ] # Se déclenche à chaque push sur main
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    concurrency: release # Évite que deux releases se lancent en même temps
-    permissions:
-      contents: write # Obligatoire pour que le robot puisse modifier ton code
-      
+    concurrency: release
     steps:
       - name: 📥 Checkout du code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Récupère TOUT l'historique (crucial pour le changelog)
+          fetch-depth: 0
 
       - name: 🛠️ Installation de Python et uv
         uses: astral-sh/setup-uv@v5
@@ -24,11 +26,32 @@ jobs:
 
       - name: 🚀 Exécution de Semantic Release
         env:
-          # Le robot a besoin de ce jeton pour créer le Tag et la Release
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # On installe l'outil
           uv tool install python-semantic-release
-          # On lance la release (calcule la version, update pyproject.toml, crée le tag)
           uvx python-semantic-release version
           uvx python-semantic-release publish
+
+      # --- AJOUT DE LA PARTIE DOC ICI ---
+      
+      - name: 🔄 Récupération du Changelog mis à jour
+        run: git pull origin main # On récupère le commit que le robot vient de faire
+
+      - name: 📚 Génération de la Doc (Sphinx)
+        run: uv run sphinx-build -b html docs docs/_build/html
+
+      - name: 📤 Upload de l'artefact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/_build/html
+
+  deploy-docs:
+    needs: release # On attend que la release soit FINIE
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 🚀 Déploiement vers GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

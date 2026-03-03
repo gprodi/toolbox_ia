@@ -39,14 +39,4 @@ jobs:
         with:
           path: docs/_build/html
 
-  deploy:
-    # Cette étape ne s'exécute que si les tests réussissent
-    needs: audit-et-tests
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: 🚀 Déploiement vers GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  
