@@ -1,6 +1,6 @@
 # 🧰 Toolbox IA : Fondations & Excellence Technique
 
-![CI Status](https://github.com/gprodi/toolbox_ia.git/actions/workflows/ci.yml/badge.svg)
+![CI Status](https://github.com/gprodi/toolbox_ia/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)
 ![Python Version](https://img.shields.io/badge/Python-3.11-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
