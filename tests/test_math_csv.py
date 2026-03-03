@@ -76,7 +76,7 @@ def test_print_data(dummy_dataframe):
 # NOUVEAU : Test du cas où le DataFrame est vide
 def test_print_data_empty():
     """Vérifie le comportement de la fonction face à un DataFrame vide."""
-    # On crée un DataFrame vide qui respecte notre schéma Pandera (colonnes id et valeur)
+    # On crée un DataFrame vide qui respecte notre schéma Pandera (colonnes id et valeur)  # noqa: E501
     empty_df = pd.DataFrame(columns=["id", "valeur"]).astype(int)
 
     # L'exécution doit déclencher le logger.warning et retourner 0
