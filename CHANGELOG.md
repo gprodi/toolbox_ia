@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.4.1 (2026-03-03)
+
+### Bug Fixes
+
+- **deps**: Abaissement de la version de sphinx pour compatibilité python 3.11
+  ([`37610d4`](https://github.com/gprodi/toolbox_ia/commit/37610d41c91e1eb4d6c548acbe2933cbd9b938a3))
+
+
 ## v1.4.0 (2026-03-03)
 
 ### Documentation
