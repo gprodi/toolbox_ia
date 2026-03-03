@@ -20,7 +20,7 @@ jobs:
       - name: 🛠️ Installation de Python et uv
         uses: astral-sh/setup-uv@v5
         with:
-          enable-cache: true     # Accélère les prochaines exécutions
+          enable-cache: false   
           python-version: "3.12" # On impose la même version que notre Dockerfile
 
       # Étape 3 : Installer TOUTES les dépendances (y compris Ruff et Pytest pour les tests)
