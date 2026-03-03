@@ -1,0 +1,34 @@
+name: Semantic Release & Delivery
+
+on:
+  push:
+    branches: [ "main" ] # Se déclenche à chaque push sur main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    concurrency: release # Évite que deux releases se lancent en même temps
+    permissions:
+      contents: write # Obligatoire pour que le robot puisse modifier ton code
+      
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Récupère TOUT l'historique (crucial pour le changelog)
+
+      - name: 🛠️ Installation de Python et uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      - name: 🚀 Exécution de Semantic Release
+        env:
+          # Le robot a besoin de ce jeton pour créer le Tag et la Release
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # On installe l'outil
+          uv tool install python-semantic-release
+          # On lance la release (calcule la version, update pyproject.toml, crée le tag)
+          uvx python-semantic-release version
+          uvx python-semantic-release publish

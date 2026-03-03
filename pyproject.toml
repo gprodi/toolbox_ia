@@ -63,3 +63,11 @@ log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 [tool.coverage.run]
 omit = ["app/main.py"]
 
+[tool.semantic_release]
+version_variable = "app/__init__.py:__version__" # Si tu as une version dans ton code
+version_toml = ["pyproject.toml:project.version"]
+branch = "main"
+upload_to_pypi = false # On ne publie pas encore sur PyPI
+upload_to_release = true
+build_command = "uv build"
+
