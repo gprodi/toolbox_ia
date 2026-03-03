@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.3.0 (2026-03-03)
+
+### Features
+
+- Amelioration log (un fichier log different a chaque lancement )
+  ([`0c0f41b`](https://github.com/gprodi/toolbox_ia/commit/0c0f41bb4ddbbbbd13e6271c5f88e7d3827b74d3))
+
+
 ## v1.2.0 (2026-03-03)
 
 ### Features
