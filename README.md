@@ -22,8 +22,8 @@ Ce projet utilise [uv](https://github.com/astral-sh/uv) pour une gestion ultra-r
 1. **Cloner le dépôt :**
 
    ```bash
-   git clone https://github.com/TON_UTILISATEUR/TON_REPO.git
-   cd TON_REPO
+   git clone https://github.com/gprodi/toolbox_ia.git
+   cd toolbox_ia
    ```
 
 2. **Synchroniser l'environnement (Production) :**
