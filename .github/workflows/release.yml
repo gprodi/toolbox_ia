@@ -43,7 +43,7 @@ jobs:
       - name: 📥 Injection du badge dans le site web
         uses: actions/download-artifact@v4
         with:
-          name: coverage-badge
+          name: coverage-badge-3.12
           path: docs/_build/html/  # Le badge atterrit directement à la racine de la doc !  
 
       - name: 📤 Upload de l'artefact
