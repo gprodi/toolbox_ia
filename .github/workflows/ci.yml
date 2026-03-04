@@ -82,3 +82,17 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/_build/html
+
+  # ==========================================
+  # JOB 3 : DÉPLOIEMENT GITHUB PAGES
+  # ==========================================
+  deploy-docs:
+    needs: build-docs # On attend que la doc soit construite
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 🚀 Déploiement vers GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
