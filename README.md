@@ -1,19 +1,21 @@
 # 🧰 Toolbox IA : Fondations & Excellence Technique
 
 ![CI Status](https://github.com/gprodi/toolbox_ia/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)
-![Python Version](https://img.shields.io/badge/Python-3.12-blue.svg)
+![Coverage](https://gprodi.github.io/toolbox_ia/coverage.svg)
+![Python Version](https://img.shields.io/badge/Python-3.11%20|%203.12%20|%203.13-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 Bienvenue dans la Toolbox IA de référence. Ce projet démontre la mise en place d'un environnement de développement professionnel, automatisé et documenté pour les travaux en Intelligence Artificielle.
 
 ## ✨ Fonctionnalités
 
-* **Architecture Modulaire** : Séparation stricte de la logique métier et de l'orchestration.
-* **Excellence Technique** : Linting intraitable avec `Ruff` et couverture de test à 100% avec `Pytest`.
+* **Architecture Modulaire** : Séparation stricte de la logique métier et de l'orchestration, avec chemins relatifs robustes via `Pathlib`.
+* **Validation Stricte (Data Contracts)** : Typage et validation rigoureuse des DataFrames grâce à `Pandera`.
+* **Excellence Technique** : Linting intraitable avec `Ruff` (incluant les règles avancées Bugbear et PyUpgrade) et couverture de test à 100% avec `Pytest`.
 * **Observabilité** : Logging structuré, coloré et rotatif via `Loguru`.
-* **Documentation Automatisée** : Site web généré via `Sphinx` et le thème `Furo`.
-* **Déploiement Universel** : Conteneurisation optimisée via `Docker`.
+* **Intégration Continue Multi-Environnements** : Pipeline GitHub Actions testant automatiquement le code sur Python 3.11, 3.12 et 3.13.
+* **Documentation Automatisée** : Site web généré via `Sphinx` et le thème `Furo`, dans un job CI/CD isolé.
+* **Déploiement Sécurisé** : Conteneurisation `Docker` optimisée et sécurisée (exécution *Rootless* via un utilisateur non-privilégié).
 
 ## 🚀 Guide d'Installation
 

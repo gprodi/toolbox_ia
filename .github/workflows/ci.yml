@@ -4,19 +4,21 @@ on:
   push:
     branches: [ "main" ]
 
-# Autorisations nécessaires pour GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
 jobs:
+  # ==========================================
+  # JOB 1 : TESTS ET QUALITÉ (Exécuté 3 fois)
+  # ==========================================
   audit-et-tests:
     runs-on: ubuntu-latest
-    # NOUVEAU : Mise en place d'une matrice stratégique
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
+
     steps:
       - name: 📥 Checkout du code
         uses: actions/checkout@v4
@@ -24,25 +26,56 @@ jobs:
       - name: 🛠️ Installation de Python et uv
         uses: astral-sh/setup-uv@v5
         with:
-          # NOUVEAU : On utilise la variable de la matrice au lieu d'une valeur en dur
           python-version: ${{ matrix.python-version }}
+
       - name: 📦 Installation des dépendances
-        # NOUVEAU : On utilise la variable de la matrice
         run: uv sync --python ${{ matrix.python-version }}
 
       - name: 🔍 Linting (Ruff)
         run: uv run ruff check .
 
-      - name: 🧪 Tests unitaires (Pytest)
-        run: uv run pytest
+      - name: 🧪 Tests unitaires et génération du badge
+        run: |
+          uv run pytest
+          uv run coverage-badge -o coverage.svg -f
+        
+      - name: 📤 Sauvegarde du badge (Artefact)
+        # On ne sauvegarde le badge qu'à partir du test Python 3.12
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-badge
+          path: coverage.svg
+          include-hidden-files: true
+
+  # ==========================================
+  # JOB 2 : DOCUMENTATION (Exécuté 1 fois)
+  # ==========================================
+  build-docs:
+    needs: audit-et-tests  # CRUCIAL : Ne se lance que si JOB 1 réussit !
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Installation de Python et uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"  # On choisit une version stable pour la doc
+
+      - name: 📦 Installation des dépendances
+        run: uv sync --python 3.12
 
       - name: 📚 Génération de la Doc (Sphinx)
         run: uv run sphinx-build -b html docs docs/_build/html
-
+      
+      - name: 📥 Injection du badge dans le site web
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-badge
+          path: docs/_build/html/  # Le badge atterrit directement à la racine de la doc !
       - name: 📤 Upload de l'artefact
-        if: matrix.python-version == '3.12'
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/_build/html
-
-  
