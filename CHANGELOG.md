@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v1.5.1 (2026-03-04)
+
+### Bug Fixes
+
+- **ci**: Restauration de l'upload du badge SVG"
+  ([`b1cc1b6`](https://github.com/gprodi/toolbox_ia/commit/b1cc1b63ae62efc372801caf363e168ace98f0b5))
+
+
 ## v1.5.0 (2026-03-04)
 
 ### Features
