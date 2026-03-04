@@ -41,14 +41,13 @@ jobs:
           uv run genbadge coverage -i coverage.xml -o coverage.svg
 
       - name: 📤 Sauvegarde du badge (Artefact)
-        # CRUCIAL : On ne l'upload qu'une seule fois
-        if: matrix.python-version == '3.12'
+        # NOUVEAU : On utilise la version de Python dans le nom pour éviter les conflits (ex: coverage-badge-3.12)
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-badge
+          name: coverage-badge-${{ matrix.python-version }}
           path: coverage.svg
           include-hidden-files: true
-          if-no-files-found: error # Fera planter la CI ici si le SVG est manquant
+          if-no-files-found: error
 
   # ==========================================
   # JOB 2 : DOCUMENTATION
@@ -75,7 +74,8 @@ jobs:
       - name: 📥 Injection du badge dans le site web
         uses: actions/download-artifact@v4
         with:
-          name: coverage-badge
+          # NOUVEAU : On télécharge spécifiquement l'artefact généré par la version 3.12
+          name: coverage-badge-3.12
           path: docs/_build/html/
 
       - name: 📤 Upload de l'artefact Pages
