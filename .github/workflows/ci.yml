@@ -37,7 +37,8 @@ jobs:
       - name: 🧪 Tests unitaires et génération du badge
         run: |
           uv run pytest
-          uv run coverage-badge -o coverage.svg -f
+          uv run coverage xml
+          uv run genbadge coverage -i coverage.xml -o coverage.svg
         
       - name: 📤 Sauvegarde du badge (Artefact)
         # On ne sauvegarde le badge qu'à partir du test Python 3.12

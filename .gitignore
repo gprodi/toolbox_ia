@@ -15,3 +15,4 @@ docs/_build/
 
 # Fichiers systèmes divers
 .DS_Store
+coverage.xml
