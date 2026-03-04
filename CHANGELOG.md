@@ -2,6 +2,15 @@
 
 <!-- version list -->
 
+## v1.5.0 (2026-03-04)
+
+### Features
+
+- **ci**: Intégration du badge de couverture dynamique" -m "- Ajout de coverage-badge aux
+  dépendances dev dans pyproject.toml
+  ([`943b724`](https://github.com/gprodi/toolbox_ia/commit/943b724cf94ec4ebdff301694aee2425f2f64623))
+
+
 ## v1.4.1 (2026-03-03)
 
 ### Bug Fixes
