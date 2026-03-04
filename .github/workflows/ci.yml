@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   # ==========================================
-  # JOB 1 : TESTS ET QUALITÉ (Exécuté 3 fois)
+  # JOB 1 : TESTS ET QUALITÉ
   # ==========================================
   audit-et-tests:
     runs-on: ubuntu-latest
@@ -39,21 +39,22 @@ jobs:
           uv run pytest
           uv run coverage xml
           uv run genbadge coverage -i coverage.xml -o coverage.svg
-        
+
       - name: 📤 Sauvegarde du badge (Artefact)
-        # On ne sauvegarde le badge qu'à partir du test Python 3.12
+        # CRUCIAL : On ne l'upload qu'une seule fois
         if: matrix.python-version == '3.12'
         uses: actions/upload-artifact@v4
         with:
           name: coverage-badge
           path: coverage.svg
           include-hidden-files: true
+          if-no-files-found: error # Fera planter la CI ici si le SVG est manquant
 
   # ==========================================
-  # JOB 2 : DOCUMENTATION (Exécuté 1 fois)
+  # JOB 2 : DOCUMENTATION
   # ==========================================
   build-docs:
-    needs: audit-et-tests  # CRUCIAL : Ne se lance que si JOB 1 réussit !
+    needs: audit-et-tests
     runs-on: ubuntu-latest
     
     steps:
@@ -63,20 +64,21 @@ jobs:
       - name: 🛠️ Installation de Python et uv
         uses: astral-sh/setup-uv@v5
         with:
-          python-version: "3.12"  # On choisit une version stable pour la doc
+          python-version: "3.12"
 
       - name: 📦 Installation des dépendances
         run: uv sync --python 3.12
 
       - name: 📚 Génération de la Doc (Sphinx)
         run: uv run sphinx-build -b html docs docs/_build/html
-      
+
       - name: 📥 Injection du badge dans le site web
         uses: actions/download-artifact@v4
         with:
           name: coverage-badge
-          path: docs/_build/html/  # Le badge atterrit directement à la racine de la doc !
-      - name: 📤 Upload de l'artefact
+          path: docs/_build/html/
+
+      - name: 📤 Upload de l'artefact Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/_build/html
