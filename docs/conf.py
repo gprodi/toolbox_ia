@@ -16,6 +16,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
     "myst_parser",
+    "sphinxcontrib.redoc", # Nouvelle extension ajoutée
 ]
 
 # On ne mocke que le front. SQLAlchemy et les BDD fonctionnent très bien
@@ -28,3 +29,15 @@ language = "fr"
 html_theme = "furo"
 html_title = "Toolbox IA - Documentation Officielle"
 html_static_path = ["_static"]
+
+# --- Configuration de ReDoc ---
+redoc = [
+    {
+        "name": "API Toolbox IA",
+        # Le nom du fichier HTML qui sera généré dynamiquement par l'extension
+        "page": "api_reference", 
+        # Le chemin vers le fichier extrait à l'Étape 1
+        "spec": "openapi.json",  
+        "embed": True,
+    }
+]
