@@ -1,0 +1,69 @@
+# Version de la syntaxe Docker Compose (laissée vide/par défaut dans les standards modernes, 
+# mais on peut préciser la structure)
+
+services:
+  # ----------------------------------------
+  # SERVICE 1 : LA BASE DE DONNÉES
+  # ----------------------------------------
+  db:
+    # On n'a pas besoin de coder PostgreSQL, on prend l'image officielle !
+    image: postgres:15-alpine
+    # On lui passe les secrets depuis notre fichier .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-toolbox_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-supersecret}
+      POSTGRES_DB: ${POSTGRES_DB:-toolbox_db}
+    # On crée un "disque dur virtuel" pour ne pas perdre les calculs si le serveur redémarre
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    # Isolation : La BDD ne discute que sur le réseau privé "api-db"
+    networks:
+      - api-db
+
+  # ----------------------------------------
+  # SERVICE 2 : L'API (FastAPI)
+  # ----------------------------------------
+  api:
+    # Au lieu d'une image toute faite, on lui dit de construire notre Dockerfile
+    build:
+      context: ./app_api
+    ports:
+      - "8000:8000" # Expose le port 8000 sur ton ordinateur physique
+    environment:
+      # L'URL magique : Au lieu de 127.0.0.1, on utilise le nom du service "db" !
+      # C'est Docker qui fera la résolution DNS automatiquement.
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-toolbox_user}:${POSTGRES_PASSWORD:-supersecret}@db:5432/${POSTGRES_DB:-toolbox_db}
+    # L'API ne doit démarrer que si la base de données est prête
+    depends_on:
+      - db
+    networks:
+      - api-db    # Pour parler à la BDD
+      - front-api # Pour écouter le Front
+
+  # ----------------------------------------
+  # SERVICE 3 : LE FRONT (Streamlit)
+  # ----------------------------------------
+  front:
+    build:
+      context: ./app_front
+    ports:
+      - "8501:8501" # Expose le port 8501 sur ton ordinateur physique
+    environment:
+      # L'URL magique : Le Front contacte l'API via son petit nom Docker "api"
+      - API_URL=http://api:8000
+    depends_on:
+      - api
+    # Isolation : Le Front n'a accès QU'AU réseau "front-api".
+    # Il lui est physiquement impossible de pirater ou d'interroger la base de données.
+    networks:
+      - front-api
+
+# ----------------------------------------
+# DÉCLARATION DES RÉSEAUX ET VOLUMES
+# ----------------------------------------
+networks:
+  front-api:
+  api-db:
+
+volumes:
+  pg_data: # Le nom de notre disque dur persistant

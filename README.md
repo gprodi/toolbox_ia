@@ -1,25 +1,25 @@
-# 🧰 Toolbox IA : Fondations & Excellence Technique
+# 🧮 Toolbox IA - V2 (Micro-services)
+
+Bienvenue dans la Toolbox IA V2 ! Ce projet est passé d'un simple script Python à une véritable architecture modulaire, robuste et conteneurisée.
 
 ![CI Status](https://github.com/gprodi/toolbox_ia/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://gprodi.github.io/toolbox_ia/coverage.svg)
-![Python Version](https://img.shields.io/badge/Python-3.11%20|%203.12%20|%203.13-blue.svg)
+![Python Version](https://img.shields.io/badge/Python-3.12blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-Bienvenue dans la Toolbox IA de référence. Ce projet démontre la mise en place d'un environnement de développement professionnel, automatisé et documenté pour les travaux en Intelligence Artificielle.
+## 🏗️ Architecture du Projet
 
-## ✨ Fonctionnalités
+L'application est découpée en micro-services isolés :
 
-* **Architecture Modulaire** : Séparation stricte de la logique métier et de l'orchestration, avec chemins relatifs robustes via `Pathlib`.
-* **Validation Stricte (Data Contracts)** : Typage et validation rigoureuse des DataFrames grâce à `Pandera`.
-* **Excellence Technique** : Linting intraitable avec `Ruff` (incluant les règles avancées Bugbear et PyUpgrade) et couverture de test à 100% avec `Pytest`.
-* **Observabilité** : Logging structuré, coloré et rotatif via `Loguru`.
-* **Intégration Continue Multi-Environnements** : Pipeline GitHub Actions testant automatiquement le code sur Python 3.11, 3.12 et 3.13.
-* **Documentation Automatisée** : Site web généré via `Sphinx` et le thème `Furo`, dans un job CI/CD isolé.
-* **Déploiement Sécurisé** : Conteneurisation `Docker` optimisée et sécurisée (exécution *Rootless* via un utilisateur non-privilégié).
+* **API (FastAPI)** : Le "Cerveau". Gère la logique métier (mon_module.py), les contrats de données (Pydantic) et la communication avec la base de données.
+
+* **Frontend (Streamlit)** : L'interface utilisateur. Isolée et réactive.
+
+* **Database (PostgreSQL)** : Assure la persistance des opérations mathématiques.
 
 ## 🚀 Guide d'Installation
 
-Ce projet utilise [uv](https://github.com/astral-sh/uv) pour une gestion ultra-rapide et déterministe des dépendances.
+C'est la méthode de production. Vous n'avez besoin que de Docker et de Docker Compose.
 
 1. **Cloner le dépôt :**
 
@@ -28,26 +28,56 @@ Ce projet utilise [uv](https://github.com/astral-sh/uv) pour une gestion ultra-r
    cd toolbox_ia
    ```
 
-2. **Synchroniser l'environnement (Production) :**
+2. **Préparez vos secrets en copiant le template :**
 
     ```bash
-    uv sync --no-dev
+    cp .env.example .env
     ```
 
-3. **Lancer l'application :**
+3. **Lancez l'infrastructure complète :**
 
    ```bash
-   uv run python app/main.py
+   docker-compose up --build
    ```
 
-## 🐳 Utilisation avec Docker
+4. **Accédez aux services :**
 
-Pour exécuter l'application de manière totalement isolée :
+    * Frontend : <http://localhost:8501>
 
-```bash
-    docker build -t toolbox_ia .
-    docker run --rm -v ${PWD}/logs:/app/logs toolbox_ia
-```
+    * Documentation API (Swagger) : <http://localhost:8000/docs>
+
+## 💻 Développement Local (via uv)
+
+Si vous développez sur le code, l'application utilise l'outil uv pour une gestion ultra-rapide des environnements virtuels.
+
+1. **Lancer l'API :**
+
+   ```bash
+    cd app_api
+    uv sync
+    uv run fastapi dev main.py
+
+   ```
+
+2. **Lancer le Front (dans un autre terminal) :**
+
+    ```bash
+    cd app_front
+    uv sync
+    uv run streamlit run main.py
+    ```
+
+## 📚 Documentation & Tests
+
+La documentation technique (Sphinx/Furo) est générée automatiquement dans les GitHub Pages. Les tests d'API sont assurés par Pytest.
+
+1. **Lancer les tests unitaires:**
+
+   ```bash
+    cd app_api
+    uv run pytest ../tests/test_api.py
+
+   ```
 
 ## 🤝 Contribuer
 

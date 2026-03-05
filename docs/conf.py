@@ -7,8 +7,9 @@
 import os
 import sys
 
-# On indique à Sphinx où trouver notre code source (le dossier app)
-sys.path.insert(0, os.path.abspath("../app"))
+# CORRECTION MÉTIER : On indique à Sphinx où trouver notre nouveau code source (le dossier app_api)
+# Le radar pointe désormais vers l'API, qui contient notre logique métier (maths).
+sys.path.insert(0, os.path.abspath("../app_api"))
 
 project = "toolbox_IA"
 copyright = "2026, Prodi.G"
@@ -26,7 +27,6 @@ extensions = [
     "myst_parser",  # Permet d'inclure des fichiers Markdown (comme le README)
 ]
 
-
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
@@ -35,7 +35,8 @@ language = "fr"
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "furo"
+html_theme = (
+    "furo"  # Utilisation du thème Furo (assurez-vous de l'avoir installé avec uv)
+)
 html_logo = "_static/img/logo.png"
 html_static_path = ["_static"]
-html_title = "Toolbox IA - Documentation Officielle"

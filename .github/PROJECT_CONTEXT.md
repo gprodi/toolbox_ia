@@ -1,36 +1,41 @@
-# Mémo : Standardisation et Excellence Technique
+# Mémo : Projet 2 - Orchestration & Micro-services
 
-## Concepts Clés
+## 1. L'Arborescence du Projet
 
-Linting & Formatage : Utilisation de Ruff, un outil ultra-rapide écrit en Rust qui remplace Black, Isort et Flake8, garantissant un code lisible par tous.
+L'application est divisée en micro-services isolés :
 
-Tests Non-Régression : Pytest automatise la vérification des fonctions pour s'assurer qu'une modification n'a pas cassé une fonctionnalité existante. L'utilisation de Fixtures permet de simuler des données (comme des DataFrames Pandas) sans charger de lourds fichiers externes.
+* app_front/ : Gère l'interface (Streamlit). Communique uniquement avec l'API.
 
-CI/CD : Les GitHub Actions exécutent un robot à chaque Push ou PR pour vérifier le formatage, lancer les tests et bloquer la fusion en cas d'échec.
+* app_api/ : Gère la logique métier (FastAPI) et l'accès aux données.
 
-Conteneurisation : Le Dockerfile est le contrat garantissant que l'application tournera de manière identique partout.
+* Base de données : Gérée via l'image officielle PostgreSQL dans Docker.
 
-## Commandes Indispensables
+## 2. Concepts Clés Appris
 
-uv init : Initialiser le projet.
+* Micro-services : Découpage d'une application en petits services indépendants, facilitant la maintenance et la scalabilité.
 
-uv add `<package>` : Ajouter des bibliothèques.
+* API REST (FastAPI) : Interface de programmation permettant au Front et au Backend de communiquer de manière standardisée via le protocole HTTP.
 
-uv run ruff check . : Vérification du code par la "police du code".
+* Contrats de Données (Pydantic) : Validation stricte des données entrantes et sortantes pour éviter les crashs et les failles d'injection.
 
-uv run ruff format . : Correction automatique du formatage.
+* Orchestration (Docker Compose) : Outil permettant de lancer et de faire communiquer plusieurs conteneurs Docker (Front, API, BDD) avec une seule commande.
 
-uv run pytest -v --cov=app --cov-report=term-missing : Lancement du banc de test avec mesure de la couverture de code.
+* Docker Volumes : Mécanisme permettant de persister les données de la base de données même si le conteneur est détruit.
 
-Stratégie d'Exécution par Jalons (Step-by-Step)
-Pour garantir la qualité, nous avancerons méthodiquement. Voici notre plan :
+* Réseaux Docker (Networks) : Isolation réseau. Le Front est sur un réseau front-api, la BDD sur un réseau api-db. Le Front ne peut pas voir la BDD.
 
-PHASE 1 : Initialisation avec uv et configuration du pyproject.toml (Ruff & Pytest).
+* Gitleaks : Outil de sécurité intégré à la CI pour s'assurer qu'aucun mot de passe ou clé d'API n'est poussé sur GitHub.
 
-PHASE 2 : Développement du module métier (mon_module.py) et du point d'entrée (main.py).
+## 3. Commandes Terminal Essentielles
 
-PHASE 3 : Stratégie de test avancée (Paramétrisation et Fixtures pour Pandas).
+* uv sync : Synchroniser les dépendances d'un sous-projet.
 
-PHASE 4 : Documentation Sphinx avec thème Furo et intégration du README.
+* uv run fastapi dev app_api/main.py : Lancer l'API en mode développement (rechargement à chaud).
 
-PHASE 5 : Conteneurisation (Dockerfile) et Automatisation (GitHub Actions ci.yml).
+* uv run streamlit run app_front/main.py : Lancer l'interface utilisateur.
+
+* uv run pytest : Lancer la suite de tests unitaires.
+
+* docker-compose up --build : Construire et lancer toute l'infrastructure micro-services en local.
+
+* docker-compose down -v : Éteindre l'infrastructure et détruire les volumes (remise à zéro).

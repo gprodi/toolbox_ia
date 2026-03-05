@@ -1,6 +1,8 @@
 # Environnements virtuels
 .venv/
 env/
+app_api/.venv/
+app_front/.venv/
 
 # Fichiers de cache Python et outils de dev
 __pycache__/
@@ -16,3 +18,5 @@ docs/_build/
 # Fichiers systèmes divers
 .DS_Store
 coverage.xml
+
+.env
