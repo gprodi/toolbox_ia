@@ -4,7 +4,6 @@ import os
 import sys
 
 # CORRECTION MÉTIER : On permet à Sphinx de scanner l'API ET le Front
-# C'est indispensable pour que l'autodoc trouve tes modules.
 sys.path.insert(0, os.path.abspath("../app_api"))
 sys.path.insert(0, os.path.abspath("../app_front"))
 
@@ -22,6 +21,10 @@ extensions = [
     "myst_parser",
 ]
 
+# 🚨 LA SOLUTION CI/CD EST ICI : Leurre pour les dépendances du Front
+# Sphinx va ignorer l'absence de ces modules et générer la doc quand même !
+autodoc_mock_imports = ["streamlit", "requests"]
+
 # On ignore les dossiers de build pour ne pas polluer la génération
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 language = "fr"
@@ -29,7 +32,7 @@ language = "fr"
 # -- Options for HTML output -------------------------------------------------
 html_theme = "furo"
 html_title = "Toolbox IA - Documentation Officielle"
-html_logo = "docs/_static/img/logo.png"
+html_logo = "_static/img/logo.png"  # Assure-toi d'avoir ce logo dans le dossier _static
 
-# Les fichiers statiques (comme le logo ou le badge coverage généré)
+# Les fichiers statiques (comme ton logo)
 html_static_path = ["_static"]

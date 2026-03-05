@@ -1,83 +1,85 @@
-# CHANGELOG
+## [2.0.0] - 2026-03-05
 
-<!-- version list -->
+### 🐛 Bug Fixes
 
-## v1.6.0 (2026-03-05)
+- Robust docs build and path
+- Include dev group in sphinx build
 
-### Features
+### 💼 Other
+
+- Deploiement ajouter au ci.yml
+
+### 📚 Documentation
+
+- Finalisation de la doc Sphinx et correction des badges
+## [1.6.0] - 2026-03-05
+
+### 🚀 Features
 
 - Migration V2 micro-services, dockerisation et CI/CD finalisée
-  ([`b3820ea`](https://github.com/gprodi/toolbox_ia/commit/b3820eabed0fa44fb7b37eb3e40bd92f08524d43))
-
 - Migration V2 micro-services, dockerisation et CI/CD finalisée
-  ([`4707cbc`](https://github.com/gprodi/toolbox_ia/commit/4707cbc1443c59d877363f9b417dd0b25b9114a6))
+## [1.5.1] - 2026-03-04
 
+### 🐛 Bug Fixes
 
-## v1.5.2 (2026-03-04)
+- *(ci)* Restauration de l'upload du badge SVG"
+- *(ci)* Utilisation de noms d'artefacts dynamiques pour le badge
+## [1.5.0] - 2026-03-04
 
+### 🚀 Features
 
-## v1.5.1 (2026-03-04)
+- Comtpatibilité multi versionj python
+## [1.4.1] - 2026-03-03
 
-### Bug Fixes
+### 🐛 Bug Fixes
 
-- **ci**: Restauration de l'upload du badge SVG"
-  ([`b1cc1b6`](https://github.com/gprodi/toolbox_ia/commit/b1cc1b63ae62efc372801caf363e168ace98f0b5))
+- *(deps)* Abaissement de la version de sphinx pour compatibilité python 3.11
+## [1.4.0] - 2026-03-03
 
+### 🚀 Features
 
-## v1.5.0 (2026-03-04)
+- *(template)* Durcissement global (pandera, pathlib, docker rootless, ci matrix)
 
-### Features
-
-- **ci**: Intégration du badge de couverture dynamique" -m "- Ajout de coverage-badge aux
-  dépendances dev dans pyproject.toml
-  ([`943b724`](https://github.com/gprodi/toolbox_ia/commit/943b724cf94ec4ebdff301694aee2425f2f64623))
-
-
-## v1.4.1 (2026-03-03)
-
-### Bug Fixes
-
-- **deps**: Abaissement de la version de sphinx pour compatibilité python 3.11
-  ([`37610d4`](https://github.com/gprodi/toolbox_ia/commit/37610d41c91e1eb4d6c548acbe2933cbd9b938a3))
-
-
-## v1.4.0 (2026-03-03)
-
-### Documentation
+### 📚 Documentation
 
 - Maj README
-  ([`04e6d7f`](https://github.com/gprodi/toolbox_ia/commit/04e6d7f92691d3eeab25bd87adbe55baefc6641f))
+## [1.3.0] - 2026-03-03
 
-### Features
-
-- **template**: Durcissement global (pandera, pathlib, docker rootless, ci matrix)
-  ([`b069042`](https://github.com/gprodi/toolbox_ia/commit/b0690422e06e2d1f267ca150449034c3c637541c))
-
-
-## v1.3.0 (2026-03-03)
-
-### Features
+### 🚀 Features
 
 - Amelioration log (un fichier log different a chaque lancement )
-  ([`0c0f41b`](https://github.com/gprodi/toolbox_ia/commit/0c0f41bb4ddbbbbd13e6271c5f88e7d3827b74d3))
 
+### 📚 Documentation
 
-## v1.2.0 (2026-03-03)
+- Maj README
+## [1.2.0] - 2026-03-03
 
-### Features
+### 🚀 Features
 
 - Alignement du workflow de documentation
-  ([`2413416`](https://github.com/gprodi/toolbox_ia/commit/2413416f5db8dbe8c89941e51969cbaa1c86b2fe))
+## [1.1.0] - 2026-03-03
 
-
-## v1.1.0 (2026-03-03)
-
-### Features
+### 🚀 Features
 
 - Ajout lien cliquable dans readme
-  ([`f29e9be`](https://github.com/gprodi/toolbox_ia/commit/f29e9beca723c89f817af1bbf84dd2a70e262449))
+## [1.0.0] - 2026-03-03
 
+### 🚀 Features
 
-## v1.0.0 (2026-03-03)
+- Toolbox complète avec CI, Docker et Doc multi-pages
+- Ajout du module de prédiction
 
-- Initial Release
+### 🐛 Bug Fixes
+
+- Alignement de la version Python sur 3.12 pour la CI et Docker
+- Force python 3.12 and disable cache in CI
+- Force python 3.12 and disable cache in CI2
+- Fusion des fonctions main et ajout de la docstring
+
+### 💼 Other
+
+- Setup automated github pages via actions
+
+### 📚 Documentation
+
+- Integration de la gouvernance et de la licence dans le site Sphinx
