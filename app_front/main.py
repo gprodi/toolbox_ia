@@ -69,4 +69,6 @@ if submitted:
             st.json(response.json())
 
     except requests.exceptions.ConnectionError:
-        st.error("🚨 Impossible de joindre l'API. Vérifiez que le conteneur API est en cours d'exécution.")
+        st.error(
+            "🚨 Impossible de joindre l'API. Vérifiez que le conteneur API est en cours d'exécution."
+        )

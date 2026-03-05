@@ -7,10 +7,11 @@ métier interne de l'application (opérations mathématiques et base de données
 
 L'application est automatiquement documentée par FastAPI via Swagger UI (disponible sur /docs).
 """
+
 import logging
 
 from fastapi import Depends, FastAPI, HTTPException, status
-from models.models import OperationCreate, OperationDB, OperationResponse
+from models.models import OperationCreate, OperationResponse
 from modules import crud
 from modules.connect import Base, engine, get_db
 from sqlalchemy.orm import Session
@@ -26,6 +27,7 @@ app = FastAPI(
     version="2.0.0",
 )
 
+
 # NOUVEAU : La fameuse route racine (Healthcheck) que le test cherchait !
 @app.get("/", tags=["Healthcheck"])
 def read_root():
@@ -34,6 +36,7 @@ def read_root():
     Retourne un simple message de statut.
     """
     return {"status": "En ligne", "message": "Bienvenue sur l'API Toolbox 2.0 !"}
+
 
 @app.post(
     "/operations/",
@@ -55,7 +58,7 @@ def creer_une_operation(op: OperationCreate, db: Session = Depends(get_db)):
         OperationResponse: Un dictionnaire sérialisé contenant toutes les informations de l'opération.
 
     Raises:
-        HTTPException: 
+        HTTPException:
             - **Code 400 (Bad Request)** : Si le type d'opération demandé n'est pas supporté.
             - **Code 500 (Internal Server Error)** : Si une erreur inattendue survient.
     """
@@ -74,5 +77,5 @@ def creer_une_operation(op: OperationCreate, db: Session = Depends(get_db)):
         logger.error(f"Erreur interne inattendue : {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Une erreur interne est survenue."
+            detail="Une erreur interne est survenue.",
         )
