@@ -85,9 +85,11 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         
       - name: Build Documentation HTML (Sphinx)
+        env:
+          # On injecte une fausse URL pour que l'importation de l'API ne plante pas
+          DATABASE_URL: postgresql://dummy_user:dummy_pass@localhost:5432/dummy_db
         run: |
           uv sync --project app_api --group dev
-          # On ajoute API et Front au PATH pour que Sphinx lise tout le code
           export PYTHONPATH=$PYTHONPATH:$(pwd)/app_api:$(pwd)/app_front
           uv run --project app_api sphinx-build -b html docs docs/_build/html
 
