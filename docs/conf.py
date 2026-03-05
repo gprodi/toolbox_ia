@@ -28,5 +28,6 @@ language = "fr"
 html_theme = "furo"
 html_title = "Toolbox IA - Documentation Officielle"
 html_static_path = ["_static"]
+html_logo = "_static/img/logo.png"
 
 
