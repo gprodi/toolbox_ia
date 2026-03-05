@@ -1,9 +1,9 @@
 import os
 import sys
 
-# La Règle d'Or : On pointe UNIQUEMENT vers le cerveau (API)
-# L'API contient de la vraie logique métier (fonctions, classes) à aspirer.
-sys.path.insert(0, os.path.abspath(".."))
+# L'UNIQUE CHEMIN NÉCESSAIRE : On se place directement dans le dossier API.
+# Ainsi Python trouve "main", "models" et "modules" naturellement lors de l'importation.
+sys.path.insert(0, os.path.abspath("../app_api"))
 
 project = "toolbox_IA"
 copyright = "2026, Prodi.G"
@@ -18,10 +18,13 @@ extensions = [
     "myst_parser",
 ]
 
+# On ne mocke que le front. SQLAlchemy et les BDD fonctionnent très bien
+# puisque tes tests "test_api.py" passent avec succès dans le pipeline !
+autodoc_mock_imports = ["streamlit", "requests"]
+
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 language = "fr"
 
 html_theme = "furo"
 html_title = "Toolbox IA - Documentation Officielle"
 html_static_path = ["_static"]
-html_logo = "_static/img/logo.png"  # Assure-toi d'avoir ce logo dans le dossier _static
