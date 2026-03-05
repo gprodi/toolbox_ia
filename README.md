@@ -3,7 +3,7 @@
 Bienvenue dans la Toolbox IA V2 ! Ce projet est passé d'un simple script Python à une véritable architecture modulaire, robuste et conteneurisée.
 
 ![CI Status](https://github.com/gprodi/toolbox_ia/actions/workflows/ci.yml/badge.svg)
-[![Coverage](https://gprodi.github.io/toolbox_ia/coverage.svg)](<https://gprodi.github.io/toolbox_ia/>)
+![Coverage](https://gprodi.github.io/toolbox_ia/coverage.svg)](<https://gprodi.github.io/toolbox_ia/>)
 ![Python Version](https://img.shields.io/badge/Python-3.12-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
