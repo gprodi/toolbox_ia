@@ -2,6 +2,17 @@
 
 <!-- version list -->
 
+## v1.6.0 (2026-03-05)
+
+### Features
+
+- Migration V2 micro-services, dockerisation et CI/CD finalisée
+  ([`b3820ea`](https://github.com/gprodi/toolbox_ia/commit/b3820eabed0fa44fb7b37eb3e40bd92f08524d43))
+
+- Migration V2 micro-services, dockerisation et CI/CD finalisée
+  ([`4707cbc`](https://github.com/gprodi/toolbox_ia/commit/4707cbc1443c59d877363f9b417dd0b25b9114a6))
+
+
 ## v1.5.2 (2026-03-04)
 
 
