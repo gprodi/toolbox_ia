@@ -1,10 +1,14 @@
-Point d'Entrée API
-==================
+Point d'Entrée API (FastAPI)
+============================
 
-C'est ici que sont définis les Endpoints FastAPI.
-Le préfixe `app_api` permet à Sphinx de ne pas confondre ce fichier avec celui du Front.
+Ce module définit les routes (endpoints) de notre micro-service backend. 
 
-.. automodule:: app_api.main
+Il agit comme le "Chef d'Orchestre" de l'API :
+1. Il intercepte les requêtes HTTP du Frontend.
+2. Il valide automatiquement les données grâce aux schémas Pydantic.
+3. Il délègue l'exécution mathématique et la sauvegarde au module CRUD.
+
+.. automodule:: main
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,11 +1,8 @@
-# Configuration file for the Sphinx documentation builder.
-
 import os
 import sys
 
-# 1. On ajoute LA RACINE du projet pour différencier app_api.main et app_front.main
-sys.path.insert(0, os.path.abspath(".."))
-# 2. On garde app_api pour que l'API trouve ses propres dépendances internes (models, etc.)
+# La Règle d'Or : On pointe UNIQUEMENT vers le cerveau (API)
+# L'API contient de la vraie logique métier (fonctions, classes) à aspirer.
 sys.path.insert(0, os.path.abspath("../app_api"))
 
 project = "toolbox_IA"
@@ -20,9 +17,6 @@ extensions = [
     "sphinx.ext.napoleon",
     "myst_parser",
 ]
-
-# Leurre pour ignorer l'absence de Streamlit lors de la génération de la doc
-autodoc_mock_imports = ["streamlit", "requests"]
 
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 language = "fr"
