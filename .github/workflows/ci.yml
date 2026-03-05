@@ -85,12 +85,8 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         
       - name: Build Documentation HTML (Sphinx)
-        env:
-          # Nécessaire pour que l'importation de app_api/main.py n'échoue pas
-          DATABASE_URL: postgresql://dummy_user:dummy_pass@localhost:5432/dummy_db
         run: |
           uv sync --project app_api --group dev
-          # Plus besoin du PYTHONPATH, conf.py fait le travail !
           uv run --project app_api sphinx-build -b html docs docs/_build/html
 
       - name: Injection du Badge dans le site web

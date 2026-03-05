@@ -8,4 +8,3 @@ Il agit comme le "Chef d'Orchestre" de l'API :
 2. Il valide automatiquement les données grâce aux schémas Pydantic.
 3. Il délègue l'exécution mathématique et la sauvegarde au module CRUD.
 
-Pour le détail technique des routes, veuillez consulter la :doc:`Référence complète de l'API <api_reference>`.
