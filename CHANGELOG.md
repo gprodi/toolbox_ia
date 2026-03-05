@@ -1,9 +1,26 @@
+## [unreleased]
+
+### 🚀 Features
+
+- Affichage doc fastapi
+- Réintégration de l'automatisation du changelog dans le CI
+
+### 🐛 Bug Fixes
+
+- Positionnement du sys.path dans app_api pour corriger l'import Sphinx
+- Instalattion sphinx redoc
+
+### 💼 Other
+
+- *(docs)* Ajout de setuptools pour compatibilité sphinxcontrib-redoc
 ## [2.0.0] - 2026-03-05
 
 ### 🐛 Bug Fixes
 
 - Robust docs build and path
 - Include dev group in sphinx build
+- Ajout des __init__.py pour transformer les dossiers en packages pour Sphinx
+- Resolution finale import sphinx et nettoyage tests
 
 ### 💼 Other
 
@@ -13,6 +30,16 @@
 
 - Finalisation de la doc Sphinx et correction des badges
 - Ajout des docstrings professionnels pour le frontend
+- Utilisation des espaces de noms pour sphinx
+- Finalisation de l'architecture sphinx et nettoyage des tests
+
+### 🧪 Testing
+
+- Ajout du healthcheck et tests exhaustifs pour coverage
+
+### ⚙️ Miscellaneous Tasks
+
+- Generation du changelog v2.0.0
 ## [1.6.0] - 2026-03-05
 
 ### 🚀 Features
