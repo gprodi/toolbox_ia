@@ -2570,6 +2570,7 @@ dev = [
     { name = "myst-parser", version = "5.0.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "pytest" },
     { name = "pytest-cov" },
+    { name = "setuptools" },
     { name = "sphinx", version = "8.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "sphinx", version = "9.0.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
     { name = "sphinx", version = "9.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
@@ -2596,6 +2597,7 @@ dev = [
     { name = "myst-parser", specifier = ">=2.0.0" },
     { name = "pytest", specifier = ">=8.0.0" },
     { name = "pytest-cov", specifier = ">=5.0.0" },
+    { name = "setuptools", specifier = ">=82.0.0" },
     { name = "sphinx", specifier = ">=7.2.6" },
     { name = "sphinxcontrib-redoc", specifier = ">=1.6.0" },
 ]
