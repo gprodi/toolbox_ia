@@ -50,6 +50,8 @@ jobs:
           DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
         run: uv run pytest ../tests/test_api.py
 
+  # ... (les parties security et test-api restent identiques) ...
+
   deploy-docs:
     runs-on: ubuntu-latest
     needs: test-api
@@ -61,17 +63,11 @@ jobs:
       - name: Installation uv
         uses: astral-sh/setup-uv@v5
         
-      - name: Installation Sphinx et dépendances
-        working-directory: ./app_api
-        run: uv sync --all-groups
-        
       - name: Build Documentation HTML
         run: |
-          # On appelle sphinx-build directement.
-          # -b html : format de sortie
-          # docs : dossier source
-          # docs/_build/html : dossier de destination
-          uv run --project app_api sphinx-build -b html docs docs/_build/html
+          # LA CLÉ DU SUCCÈS : On ajoute --group dev pour que uv 
+          # installe MyST-Parser et Furo avant de lancer Sphinx.
+          uv run --project app_api --group dev sphinx-build -b html docs docs/_build/html
           
       - name: Déploiement sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
