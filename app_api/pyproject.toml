@@ -1,0 +1,31 @@
+[project]
+name = "toolbox-api"
+version = "2.0.0"
+description = "Micro-service API pour la Toolbox IA"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    # -- Cœur de l'API --
+    "fastapi[standard]>=0.110.0",
+    "uvicorn>=0.29.0",
+    "sqlalchemy>=2.0.29",
+    "pydantic>=2.6.4",
+    
+    # -- NOUVEAU : Le driver PostgreSQL --
+    "psycopg2-binary>=2.9.9",
+    
+    # -- Héritage du module métier V1 --
+    "pandas>=2.0.0",     
+    "pandera>=0.18.0",   
+    "loguru>=0.7.2"      
+]
+
+[dependency-groups]
+# On crée un groupe "dev" qui ne sera pas installé en production
+dev = [
+    "pytest>=8.0.0",
+    "httpx>=0.27.0"  # Indispensable pour TestClient
+    "sphinx>=7.2.6",       # Pour la génération de documentation
+    "furo>=2024.1.29"      # Le thème visuel moderne 
+]

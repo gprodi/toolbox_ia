@@ -1,98 +1,69 @@
-name: CI & Documentation Deployment
+name: CI Pipeline - Toolbox V2
 
+# Se déclenche à chaque push sur la branche principale et sur notre branche de travail
 on:
   push:
+    branches: [ "main", "v2-microservices" ]
+  pull_request:
     branches: [ "main" ]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
-  # ==========================================
-  # JOB 1 : TESTS ET QUALITÉ
-  # ==========================================
-  audit-et-tests:
+  # 1. Job de Sécurité : Vérification des fuites de secrets
+  security:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.11", "3.12", "3.13"]
-
     steps:
-      - name: 📥 Checkout du code
+      - name: Checkout du code
         uses: actions/checkout@v4
-
-      - name: 🛠️ Installation de Python et uv
-        uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          fetch-depth: 0 # Nécessaire pour que Gitleaks scanne tout l'historique
+          
+      - name: Analyse Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 📦 Installation des dépendances
-        run: uv sync --python ${{ matrix.python-version }}
-
-      - name: 🔍 Linting (Ruff)
-        run: uv run ruff check .
-
-      - name: 🧪 Tests unitaires et génération du badge
-        run: |
-          uv run pytest
-          uv run coverage xml
-          uv run genbadge coverage -i coverage.xml -o coverage.svg
-
-      - name: 📤 Sauvegarde du badge (Artefact)
-        # NOUVEAU : On utilise la version de Python dans le nom pour éviter les conflits (ex: coverage-badge-3.12)
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-badge-${{ matrix.python-version }}
-          path: coverage.svg
-          include-hidden-files: true
-          if-no-files-found: error
-
-  # ==========================================
-  # JOB 2 : DOCUMENTATION
-  # ==========================================
-  build-docs:
-    needs: audit-et-tests
+  # 2. Job de Tests : Validation de l'API
+  test-api:
     runs-on: ubuntu-latest
+    needs: security # On ne lance les tests que si le code est sécurisé !
     
-    steps:
-      - name: 📥 Checkout du code
-        uses: actions/checkout@v4
+    # On déploie une base PostgreSQL éphémère directement dans les serveurs GitHub
+    services:
+      db:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-      - name: 🛠️ Installation de Python et uv
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+        
+      - name: Installation de 'uv'
         uses: astral-sh/setup-uv@v5
         with:
-          python-version: "3.12"
-
-      - name: 📦 Installation des dépendances
-        run: uv sync --python 3.12
-
-      - name: 📚 Génération de la Doc (Sphinx)
-        run: uv run sphinx-build -b html docs docs/_build/html
-
-      - name: 📥 Injection du badge dans le site web
-        uses: actions/download-artifact@v4
+          enable-cache: true
+          
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
         with:
-          # NOUVEAU : On télécharge spécifiquement l'artefact généré par la version 3.12
-          name: coverage-badge-3.12
-          path: docs/_build/html/
-
-      - name: 📤 Upload de l'artefact Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/_build/html
-
-  # ==========================================
-  # JOB 3 : DÉPLOIEMENT GITHUB PAGES
-  # ==========================================
-  deploy-docs:
-    needs: build-docs # On attend que la doc soit construite
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: 🚀 Déploiement vers GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          python-version-file: "app_api/pyproject.toml"
+          
+      - name: Installation des dépendances (y compris dev)
+        working-directory: ./app_api
+        run: uv sync --all-groups
+        
+      - name: Exécution des tests Pytest
+        working-directory: ./app_api
+        env:
+          # On donne à l'API l'adresse de la BDD éphémère montée par GitHub
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+        run: uv run pytest ../tests/test_api.py

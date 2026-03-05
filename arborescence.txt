@@ -1,0 +1,24 @@
+.
+├── .github/                   # Le cerveau de notre automatisation (CI/CD)
+│   ├── workflows/
+│   │   ├── ci.yml             # Vérifie le code (Lint, Tests, Fuite de secrets)
+│   │   └── cd.yml             # Construit et déploie l'image si la CI est verte
+│   └── PROJECT_CONTEXT.md     # Ton cahier de cours (généré ci-dessous)
+├── app_front/                 # SERVICE 1 : L'Interface Utilisateur (Streamlit)
+│   ├── main.py
+│   ├── pages/
+│   ├── pyproject.toml         # Dépendances exclusives au front
+│   └── Dockerfile             # Recette pour conteneuriser le front
+├── app_api/                   # SERVICE 2 : Le Cerveau et Logique Métier (FastAPI)
+│   ├── main.py                # Point d'entrée de l'API
+│   ├── models/                # Contrats de données (Pydantic) pour valider les entrées
+│   ├── modules/               # Ta logique métier (Maths, DB, etc.)
+│   ├── pyproject.toml         # Dépendances exclusives à l'API
+│   └── Dockerfile             # Recette pour conteneuriser l'API
+├── tests/                     # Le garde-fou (Pytest)
+│   └── test_api.py
+├── docker-compose.yml         # Le chef d'orchestre (pour le dev local)
+├── docker-compose.prod.yml    # Le chef d'orchestre (pour la production)
+├── .env.example               # Template des secrets (Hygiène de sécurité)
+├── .gitignore                 # Empêche de pousser des fichiers locaux sur Git
+└── .dockerignore              # Allège et sécurise nos images Docker
