@@ -1,33 +1,35 @@
 name: CI Pipeline - Toolbox V2
 
-# Se déclenche à chaque push sur la branche principale et sur notre branche de travail
 on:
   push:
-    branches: [ "main", "v2-microservices" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
+# Autorisations nécessaires pour publier sur GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
-  # 1. Job de Sécurité : Vérification des fuites de secrets
+  # --- JOB 1 : SÉCURITÉ ---
   security:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Nécessaire pour que Gitleaks scanne tout l'historique
-          
+          fetch-depth: 0
       - name: Analyse Gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # 2. Job de Tests : Validation de l'API
+  # --- JOB 2 : TESTS API ---
   test-api:
     runs-on: ubuntu-latest
-    needs: security # On ne lance les tests que si le code est sécurisé !
-    
-    # On déploie une base PostgreSQL éphémère directement dans les serveurs GitHub
+    needs: security
     services:
       db:
         image: postgres:15-alpine
@@ -35,35 +37,50 @@ jobs:
           POSTGRES_USER: test_user
           POSTGRES_PASSWORD: test_password
           POSTGRES_DB: test_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        ports: [5432:5432]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
-        
-      - name: Installation de 'uv'
+      - name: Installation uv
         uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-          
-      - name: Configuration de Python
-        uses: actions/setup-python@v5
-        with:
-          python-version-file: "app_api/pyproject.toml"
-          
-      - name: Installation des dépendances (y compris dev)
+      - name: Installation dépendances
+        working-directory: ./app_api
+        run: uv sync --all-groups
+      - name: Run Pytest
+        working-directory: ./app_api
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+        run: uv run pytest ../tests/test_api.py
+
+  # --- JOB 3 : DÉPLOIEMENT DOCUMENTATION (NOUVEAU) ---
+  deploy-docs:
+    runs-on: ubuntu-latest
+    needs: test-api
+    # On ne déploie QUE si on est sur la branche main
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+      
+      - name: Installation uv
+        uses: astral-sh/setup-uv@v5
+        
+      - name: Installation Sphinx et Thème Furo
         working-directory: ./app_api
         run: uv sync --all-groups
         
-      - name: Exécution des tests Pytest
+      - name: Build Documentation HTML
         working-directory: ./app_api
-        env:
-          # On donne à l'API l'adresse de la BDD éphémère montée par GitHub
-          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
-        run: uv run pytest ../tests/test_api.py
+        run: |
+          # On se place dans le dossier docs pour lancer le build
+          cd ../docs
+          uv run make html
+          
+      - name: Déploiement sur GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build/html
