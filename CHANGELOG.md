@@ -12,6 +12,7 @@
 ### 📚 Documentation
 
 - Finalisation de la doc Sphinx et correction des badges
+- Ajout des docstrings professionnels pour le frontend
 ## [1.6.0] - 2026-03-05
 
 ### 🚀 Features
