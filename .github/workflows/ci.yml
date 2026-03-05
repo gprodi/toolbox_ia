@@ -6,14 +6,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
-# Autorisations nécessaires pour publier sur GitHub Pages
 permissions:
   contents: write
   pages: write
   id-token: write
 
 jobs:
-  # --- JOB 1 : SÉCURITÉ ---
   security:
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +24,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # --- JOB 2 : TESTS API ---
   test-api:
     runs-on: ubuntu-latest
     needs: security
@@ -39,7 +36,6 @@ jobs:
           POSTGRES_DB: test_db
         ports: [5432:5432]
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -54,13 +50,10 @@ jobs:
           DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
         run: uv run pytest ../tests/test_api.py
 
-  # --- JOB 3 : DÉPLOIEMENT DOCUMENTATION (NOUVEAU) ---
   deploy-docs:
     runs-on: ubuntu-latest
     needs: test-api
-    # On ne déploie QUE si on est sur la branche main
     if: github.ref == 'refs/heads/main'
-    
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -68,16 +61,17 @@ jobs:
       - name: Installation uv
         uses: astral-sh/setup-uv@v5
         
-      - name: Installation Sphinx et Thème Furo
+      - name: Installation Sphinx et dépendances
         working-directory: ./app_api
         run: uv sync --all-groups
         
       - name: Build Documentation HTML
-        working-directory: ./app_api
         run: |
-          # On se place dans le dossier docs pour lancer le build
-          cd ../docs
-          uv run make html
+          # On appelle sphinx-build directement.
+          # -b html : format de sortie
+          # docs : dossier source
+          # docs/_build/html : dossier de destination
+          uv run --project app_api sphinx-build -b html docs docs/_build/html
           
       - name: Déploiement sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
