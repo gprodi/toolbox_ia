@@ -3,7 +3,7 @@ import sys
 
 # La Règle d'Or : On pointe UNIQUEMENT vers le cerveau (API)
 # L'API contient de la vraie logique métier (fonctions, classes) à aspirer.
-sys.path.insert(0, os.path.abspath("../app_api"))
+sys.path.insert(0, os.path.abspath(".."))
 
 project = "toolbox_IA"
 copyright = "2026, Prodi.G"
