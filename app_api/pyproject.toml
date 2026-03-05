@@ -27,5 +27,6 @@ dev = [
     "pytest>=8.0.0",
     "httpx>=0.27.0",  # Indispensable pour TestClient
     "sphinx>=7.2.6",       # Pour la génération de documentation
-    "furo>=2024.1.29"      # Le thème visuel moderne 
+    "furo>=2024.1.29",      # Le thème visuel moderne 
+    "myst-parser>=2.0.0"
 ]
