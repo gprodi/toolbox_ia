@@ -42,7 +42,7 @@ C'est la méthode de production. Vous n'avez besoin que de Docker et de Docker C
 3. **Lancez l'infrastructure complète :**
 
    ```bash
-    export DOCKERHUB_USERNAME="votre_pseudo_dockerhub"
+    export DOCKERHUB_USERNAME="gprodi"
     docker-compose -f docker-compose.prod.yml up -d
    ```
 
