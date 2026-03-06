@@ -17,6 +17,7 @@ from sqlalchemy.orm import Session
 from models.models import OperationCreate, OperationResponse
 from modules import crud
 from modules.connect import Base, engine, get_db
+from fastapi.middleware.cors import CORSMiddleware
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +30,14 @@ app = FastAPI(
     version="2.0.0",
 )
 
+# NOUVEAU : Ajout du middleware CORS pour autoriser les requêtes cross-origin
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # À remplacer par les origines autorisées en production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # NOUVEAU : La fameuse route racine (Healthcheck) que le test cherchait !
 @app.get("/", tags=["Healthcheck"])

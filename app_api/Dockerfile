@@ -8,12 +8,11 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # 3. On définit notre dossier de travail à l'intérieur du conteneur
 WORKDIR /app
 
-# 4. Optimisation du cache Docker : On copie D'ABORD uniquement le fichier de dépendances
-COPY pyproject.toml .
+# 4. On copie D'ABORD le pyproject ET le fichier lock pour garantir un build déterministe
+COPY pyproject.toml uv.lock ./
 
-# 5. On installe les dépendances avec uv. 
-# Si notre code change mais pas le pyproject, Docker ne refera pas cette étape très longue !
-RUN uv sync
+# 5. On installe UNIQUEMENT les dépendances de production, en mode figé (--frozen)
+RUN uv sync --no-dev --frozen
 
 # 6. Maintenant, on copie le reste de notre code (main.py, models/, modules/...)
 COPY . .

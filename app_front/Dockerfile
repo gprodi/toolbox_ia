@@ -7,9 +7,11 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # 3. Dossier de travail
 WORKDIR /app
 
-# 4. Gestion du cache pour les dépendances du Front
-COPY pyproject.toml .
-RUN uv sync
+# 4. On copie D'ABORD le pyproject ET le fichier lock pour garantir un build déterministe
+COPY pyproject.toml uv.lock ./
+
+# 5. On installe UNIQUEMENT les dépendances de production, en mode figé (--frozen)
+RUN uv sync --no-dev --frozen
 
 # 5. Copie du code source (main.py du front)
 COPY . .
