@@ -10,6 +10,7 @@
 
 - Positionnement du sys.path dans app_api pour corriger l'import Sphinx
 - Instalattion sphinx redoc
+- Suppression du __init__.py racine qui cassait les imports FastAPI
 
 ### 💼 Other
 
@@ -25,6 +26,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
