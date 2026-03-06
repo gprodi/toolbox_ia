@@ -15,12 +15,17 @@
 
 - *(docs)* Ajout de setuptools pour compatibilité sphinxcontrib-redoc
 
+### 📚 Documentation
+
+- Maj readme
+
 ### 🎨 Styling
 
 - Correction du formatage et des imports avec ruff
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
