@@ -6,6 +6,7 @@ Bienvenue dans la Toolbox IA V2 ! Ce projet est passé d'un simple script Python
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
 ![CI Status](https://github.com/gprodi/toolbox_ia/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://gprodi.github.io/toolbox_ia/coverage.svg)
 ![Python Version](https://img.shields.io/badge/Python-3.12-blue.svg)
