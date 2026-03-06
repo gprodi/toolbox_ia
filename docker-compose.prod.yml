@@ -9,16 +9,23 @@ services:
       - pg_data:/var/lib/postgresql/data
     networks:
       - api-db
+    # NOUVEAU : On teste si PostgreSQL est réellement prêt à recevoir des requêtes
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-toolbox_user} -d ${POSTGRES_DB:-toolbox_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   api:
-    # On télécharge l'artefact figé et validé par la CI/CD
     image: ${DOCKERHUB_USERNAME:-ton_pseudo}/toolbox-api:latest
     ports:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-toolbox_user}:${POSTGRES_PASSWORD:-supersecret}@db:5432/${POSTGRES_DB:-toolbox_db}
+    # NOUVEAU : On ne démarre l'API QUE si le healthcheck de la BDD est au vert !
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - api-db
       - front-api
