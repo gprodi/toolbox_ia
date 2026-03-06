@@ -93,17 +93,17 @@ jobs:
         working-directory: ./app_front
         run: |
           uv sync --group dev
-          # On simule un démarrage de l'interface en tâche de fond (sans navigateur)
-          # Si le code a une erreur de syntaxe fatale, la commande va crasher immédiatement
+          # On simule un démarrage de l'interface en tâche de fond
           uv run streamlit run main.py --server.headless=true &
           PID=$!
-          sleep 5 # On attend 5 secondes pour voir si le processus meurt
+          sleep 5
           if ps -p $PID > /dev/null; then
              echo "Le Front a démarré avec succès !"
              kill $PID
           else
              echo "Erreur fatale : Le Front a crashé au démarrage."
              exit 1
+          fi
                   
   deploy-docs:
     environment:
