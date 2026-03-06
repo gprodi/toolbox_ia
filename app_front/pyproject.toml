@@ -9,6 +9,7 @@ requires-python = ">=3.10"
 dependencies = [
     "streamlit>=1.32.0",      # Le framework pour faire des interfaces rapides
     "requests>=2.31.0",       # L'outil pour "téléphoner" à notre API FastAPI
+    "pandas>=2.3.3",
 ]
 
 [tool.ruff]
