@@ -5,6 +5,7 @@
 - Affichage doc fastapi
 - Réintégration de l'automatisation du changelog dans le CI
 - *(ops)* Refonte complète CI/CD, séparation environnements dev/prod et ajout linter Ruff
+- Ajout de la page d'historique et route GET api
 
 ### 🐛 Bug Fixes
 
@@ -26,6 +27,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
