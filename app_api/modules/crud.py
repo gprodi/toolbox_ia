@@ -26,3 +26,13 @@ def create_operation(db: Session, op: OperationCreate):
     db.refresh(nouvelle_op_db)
 
     return nouvelle_op_db
+
+
+def get_all_operations(db: Session):
+    """
+    Récupère l'intégralité de l'historique des opérations
+    sauvegardées dans la base de données.
+    """
+    # SQLAlchemy traduit cette ligne en un classique "SELECT * FROM operations;"
+    # .all() renvoie la liste complète des résultats
+    return db.query(OperationDB).all()

@@ -10,6 +10,7 @@ L'application est automatiquement documentée par FastAPI via Swagger UI
 """
 
 import logging
+from typing import List  # À ajouter tout en haut avec tes imports
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -98,3 +99,20 @@ def creer_une_operation(op: OperationCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Une erreur interne est survenue.",
         )
+
+
+@app.get(
+    "/operations/",
+    response_model=List[OperationResponse],
+    status_code=status.HTTP_200_OK,
+)
+def lire_les_operations(db: Session = Depends(get_db)):
+    """
+    Récupère l'historique complet des opérations mathématiques.
+    """
+    logger.info("Récupération de l'historique des opérations demandée par le Front.")
+
+    # On délègue la lecture au module CRUD
+    # Assure-toi que la fonction get_all_operations existe dans ton crud.py !
+    operations = crud.get_all_operations(db)
+    return operations
