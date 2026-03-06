@@ -12,8 +12,8 @@ Son rôle (Responsabilité Unique) est de :
 4. Afficher le résultat ou les erreurs retournés par l'API de manière conviviale.
 
 Variables d'environnement requises:
-    API_URL (str): L'URL complète du backend FastAPI (ex: http://127.0.0.1:8000 en local,
-                   ou http://api:8000 dans Docker).
+    API_URL (str): L'URL complète du backend FastAPI
+    (ex: http://127.0.0.1:8000 en local, ou http://api:8000 dans Docker).
 
 Dépendances:
     - streamlit: Rendu de l'IHM.
@@ -21,6 +21,7 @@ Dépendances:
 """
 
 import os
+
 import requests
 import streamlit as st
 
@@ -47,7 +48,7 @@ with st.form("operation_form"):
         val1 = st.number_input("Valeur 1", value=0.0)
 
     with col2:
-        # La condition marche en temps réel : si "square" est choisi, ce champ est grisé !
+        # La condition marche en temps réel : si "square" est choisi, champ grisé
         val2 = st.number_input("Valeur 2", value=0.0, disabled=(type_op == "square"))
 
     submitted = st.form_submit_button("Calculer via l'API")
@@ -70,5 +71,5 @@ if submitted:
 
     except requests.exceptions.ConnectionError:
         st.error(
-            "🚨 Impossible de joindre l'API. Vérifiez que le conteneur API est en cours d'exécution."
+            "🚨 Impossible de joindre l'API. Vérifiez conteneur API est en exécution."
         )
