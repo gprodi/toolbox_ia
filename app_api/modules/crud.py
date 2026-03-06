@@ -1,6 +1,7 @@
+from sqlalchemy.orm import Session
+
 from maths import mon_module  # On importe notre "Chef cuisinier"
 from models.models import OperationCreate, OperationDB
-from sqlalchemy.orm import Session
 
 
 def create_operation(db: Session, op: OperationCreate):

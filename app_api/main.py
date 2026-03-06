@@ -5,16 +5,18 @@ Ce module définit l'application FastAPI et ses routes (endpoints) RESTful.
 Il sert d'interface entre le monde extérieur (requêtes HTTP) et la logique
 métier interne de l'application (opérations mathématiques et base de données).
 
-L'application est automatiquement documentée par FastAPI via Swagger UI (disponible sur /docs).
+L'application est automatiquement documentée par FastAPI via Swagger UI
+(disponible sur /docs).
 """
 
 import logging
 
 from fastapi import Depends, FastAPI, HTTPException, status
+from sqlalchemy.orm import Session
+
 from models.models import OperationCreate, OperationResponse
 from modules import crud
 from modules.connect import Base, engine, get_db
-from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +25,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Toolbox IA - Core API",
-    description="API Micro-service pour la gestion des mathématiques et des données.",
+    description="API Micro-service pour la gestion des mathématiques et données.",
     version="2.0.0",
 )
 
@@ -45,22 +47,29 @@ def read_root():
 )
 def creer_une_operation(op: OperationCreate, db: Session = Depends(get_db)):
     """
-    Crée, calcule et enregistre une nouvelle opération mathématique en base de données.
+    Crée, calcule et enregistre une nouvelle opération mathématique
+    en base de données.
 
-    Ce endpoint reçoit une charge utile (payload) JSON validée par le schéma `OperationCreate`.
-    Il délègue l'exécution mathématique et l'insertion en base de données au module `crud`.
+    Ce endpoint reçoit une charge utile (payload) JSON validée par le schéma
+    `OperationCreate`.
+    Il délègue l'exécution mathématique et l'insertion en base de données
+    au module `crud`.
 
     Args:
-        op (OperationCreate): L'objet contenant les paramètres de l'opération (valeur1, valeur2, type_op).
+        op (OperationCreate): L'objet contenant les paramètres de l'opération
+        (valeur1, valeur2, type_op).
         db (Session, optional): La session SQLAlchemy injectée par dépendance.
 
     Returns:
-        OperationResponse: Un dictionnaire sérialisé contenant toutes les informations de l'opération.
+        OperationResponse: Un dictionnaire sérialisé contenant toutes
+        les informations de l'opération.
 
     Raises:
         HTTPException:
-            - **Code 400 (Bad Request)** : Si le type d'opération demandé n'est pas supporté.
-            - **Code 500 (Internal Server Error)** : Si une erreur inattendue survient.
+            - **Code 400 (Bad Request)** : Si le type d'opération
+            demandé n'est pas supporté.
+            - **Code 500 (Internal Server Error)** : Si une erreur
+            inattendue survient.
     """
     logger.info(f"Requête reçue pour une opération de type : {op.type_op}")
 

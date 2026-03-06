@@ -1,6 +1,7 @@
-from modules.connect import Base
 from pydantic import BaseModel, Field
 from sqlalchemy import Column, Float, Integer, String
+
+from modules.connect import Base
 
 
 # ==========================================
