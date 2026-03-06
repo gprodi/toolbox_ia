@@ -39,6 +39,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # NOUVEAU : La fameuse route racine (Healthcheck) que le test cherchait !
 @app.get("/", tags=["Healthcheck"])
 def read_root():
