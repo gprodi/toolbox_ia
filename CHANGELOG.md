@@ -33,6 +33,7 @@
 - *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
 - *(docs)* Auto-update changelog [skip ci]
+- *(docs)* Auto-update changelog [skip ci]
 ## [2.0.0] - 2026-03-05
 
 ### 🐛 Bug Fixes
