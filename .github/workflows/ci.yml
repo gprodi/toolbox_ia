@@ -6,21 +6,16 @@ on:
   pull_request:
     branches: [ "main" ]
 
-# 1. AUTORISATIONS CRITIQUES : Nécessaires pour le déploiement direct (sans branche gh-pages)
 permissions:
-  contents: write  # Nécessaire pour que le workflow puisse faire des commits (ex: mise à jour du changelog)
+  contents: write
   pages: write
   id-token: write
 
-# Empêche plusieurs déploiements simultanés de s'écraser
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # ==========================================
-  # JOB 1 : VÉRIFICATION DE SÉCURITÉ
-  # ==========================================
   security:
     runs-on: ubuntu-latest
     steps:
@@ -32,11 +27,32 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ==========================================
-  # JOB 2 : TESTS ET COUVERTURE (GENBADGE)
+  # JOB 1 BIS : LINTING ET FORMATAGE (RUFF)
   # ==========================================
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Vérification du code de l'API avec Ruff
+        working-directory: ./app_api
+        run: |
+          uv sync --group dev
+          # 1. Vérifie la syntaxe, les variables non utilisées, les imports mal triés
+          uv run ruff check .
+          # 2. Vérifie que le code est bien formaté (sans modifier les fichiers, sinon la CI passe alors que le code original est sale)
+          uv run ruff format --check .
+
+      - name: Vérification du code du Front avec Ruff
+        working-directory: ./app_front
+        run: |
+          uv sync --group dev
+          uv run ruff check .
+          uv run ruff format --check .        
   test-api:
     runs-on: ubuntu-latest
-    needs: security
+    needs: [security, lint]
     services:
       db:
         image: postgres:15-alpine
@@ -57,27 +73,21 @@ jobs:
           DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
         run: |
           uv sync --all-groups
-          # On crée le rapport XML de couverture
           uv run pytest --cov=. --cov-report=xml ../tests/test_api.py
-          # Genbadge transforme le XML en image SVG
           uv run genbadge coverage -i coverage.xml -o coverage.svg
 
       - name: Mise en soute du Badge
         uses: actions/upload-artifact@v4
         with:
           name: coverage-badge
-          path: app_api/coverage.svg # On sauvegarde l'image pour l'étape suivante
+          path: app_api/coverage.svg
 
-  # ==========================================
-  # JOB 3 : BUILD DE LA DOC ET DÉPLOIEMENT
-  # ==========================================
   deploy-docs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: test-api
-    # On déploie uniquement si c'est un push sur la branche principale
     if: github.ref == 'refs/heads/main'
     
     steps:
@@ -93,7 +103,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-badge
-          # MAGIE : On dépose le SVG directement à la racine du futur site
           path: docs/_build/html/
 
       - name: Configuration de GitHub Pages
@@ -108,19 +117,16 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # ==========================================
-  # JOB 4 : AUTO-GÉNÉRATION DU CHANGELOG
-  # ==========================================
   changelog:
     runs-on: ubuntu-latest
-    needs: deploy-docs # On le lance tout à la fin
+    needs: deploy-docs
     if: github.ref == 'refs/heads/main'
     
     steps:
       - name: Récupération du code (Historique complet requis)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # CRITIQUE : Il faut tout l'historique pour générer le changelog
+          fetch-depth: 0
 
       - name: Génération du Changelog avec git-cliff
         uses: orhun/git-cliff-action@v4

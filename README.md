@@ -37,7 +37,8 @@ C'est la méthode de production. Vous n'avez besoin que de Docker et de Docker C
 3. **Lancez l'infrastructure complète :**
 
    ```bash
-   docker-compose up --build
+    export DOCKERHUB_USERNAME="votre_pseudo_dockerhub"
+    docker-compose -f docker-compose.prod.yml up -d
    ```
 
 4. **Accédez aux services :**
@@ -45,6 +46,19 @@ C'est la méthode de production. Vous n'avez besoin que de Docker et de Docker C
     * Frontend : <http://localhost:8501>
 
     * Documentation API (Swagger) : <http://localhost:8000/docs>
+
+## 💻 Développement Local (Docker)
+
+Si vous développez sur le code, l'application utilise l'outil uv pour une gestion ultra-rapide des environnements virtuels.
+
+1. **Si vous souhaitez modifier le code et tester l'architecture complète sur votre machine avec un rechargement des conteneurs : :**
+
+   ```bash
+    docker-compose up --build
+
+   ```
+
+(Note : N'oubliez pas d'éteindre l'environnement de production avec docker-compose -f docker-compose.prod.yml down avant de lancer le développement pour éviter les conflits de ports).
 
 ## 💻 Développement Local (via uv)
 

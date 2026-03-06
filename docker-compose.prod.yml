@@ -11,8 +11,8 @@ services:
       - api-db
 
   api:
-    build:
-      context: ./app_api
+    # On télécharge l'artefact figé et validé par la CI/CD
+    image: ${DOCKERHUB_USERNAME:-ton_pseudo}/toolbox-api:latest
     ports:
       - "8000:8000"
     environment:
@@ -24,8 +24,8 @@ services:
       - front-api
 
   front:
-    build:
-      context: ./app_front
+    # Pareil pour le front
+    image: ${DOCKERHUB_USERNAME:-ton_pseudo}/toolbox-front:latest
     ports:
       - "8501:8501"
     environment:

@@ -10,3 +10,18 @@ dependencies = [
     "streamlit>=1.32.0",      # Le framework pour faire des interfaces rapides
     "requests>=2.31.0",       # L'outil pour "téléphoner" à notre API FastAPI
 ]
+
+[tool.ruff]
+# Longueur maximale d'une ligne (88 est le standard de Black)
+line-length = 88
+# Fichiers à ignorer
+exclude = [".git", ".venv", "__pycache__", "docs"]
+
+[tool.ruff.lint]
+# Sélectionner les règles (E: erreurs pycodestyle, F: pyflakes, I: isort pour trier les imports)
+select = ["E", "F", "I"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.5",
+]

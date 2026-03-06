@@ -29,4 +29,15 @@ dev = [
     "myst-parser>=2.0.0",
     "sphinxcontrib-redoc>=1.6.0",
     "setuptools>=82.0.0",
+    "ruff>=0.15.5",
 ]
+
+[tool.ruff]
+# Longueur maximale d'une ligne (88 est le standard de Black)
+line-length = 88
+# Fichiers à ignorer
+exclude = [".git", ".venv", "__pycache__", "docs"]
+
+[tool.ruff.lint]
+# Sélectionner les règles (E: erreurs pycodestyle, F: pyflakes, I: isort pour trier les imports)
+select = ["E", "F", "I"]
