@@ -12,12 +12,12 @@ L'application est automatiquement documentée par FastAPI via Swagger UI
 import logging
 
 from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from models.models import OperationCreate, OperationResponse
 from modules import crud
 from modules.connect import Base, engine, get_db
-from fastapi.middleware.cors import CORSMiddleware
 
 logger = logging.getLogger(__name__)
 
